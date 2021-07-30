@@ -1,10 +1,24 @@
 import React from 'react';
+import { Container } from '@material-ui/core';
+import { ThemeProvider } from 'styled-components';
 
-function App() {
+import Header from './components/Header';
+import Home from './pages/Home';
+
+import { GlobalStyle } from './styles/global';
+import theme from './styles/theme';
+
+function App(): JSX.Element {
   return (
-    <div>
-      <h1>Good luck!</h1>
-    </div>
+    <>
+      <GlobalStyle />
+      <Header />
+      <Container>
+        <ThemeProvider theme={theme}>
+          <Home />
+        </ThemeProvider>
+      </Container>
+    </>
   );
 }
 
