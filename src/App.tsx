@@ -10,6 +10,7 @@ import Header from './components/Header/Header';
 
 // MUI Styles and settings
 import { ThemeProvider } from '@mui/material/styles';
+import { StoresProvider } from './providers/stores';
 
 const GridStyled = styled(Grid)`
     height: 100vh;
@@ -47,17 +48,19 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <div className='App'>
-        <Header />
-        
-        <GridStyled container spacing={2}>
-          <Grid item md={4} className='Stores-container'>
-            <Stores />
-          </Grid>
+        <StoresProvider>
+          <Header />
+          
+          <GridStyled container spacing={2}>
+            <Grid item md={4} className='Stores-container'>
+              <Stores />
+            </Grid>
 
-          <Grid item md={8} className='Map-container'>
-            <div>Mapa</div>
-          </Grid>
-        </GridStyled>
+            <Grid item md={8} className='Map-container'>
+              <div>Mapa</div>
+            </Grid>
+          </GridStyled>
+        </StoresProvider>
       </div>
     </ThemeProvider>
   );

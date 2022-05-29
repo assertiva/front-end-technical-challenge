@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import { useState, useContext } from 'react';
+import { StoresContext } from "../../providers/stores";
 import { styled } from '@mui/material/styles';
 
 // MUI Components
@@ -8,10 +9,6 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import Divider from '@mui/material/Divider';
 import Pagination from '@mui/material/Pagination';
-import Typography from '@mui/material/Typography';
-
-// MUI Icons
-import HourglassBottomTwoToneIcon from '@mui/icons-material/HourglassBottomTwoTone';
 
 // MUI styles
 const BoxStyled = styled(Box)(({ theme }) => ({
@@ -83,81 +80,43 @@ const ListItemStyled = styled(ListItem)`
 `;
 
 const StoreList = () => {
-    const [stores, setStores] = useState([]);
-    const [loaded, setLoaded] = useState(false);
+    const { stores, revenue } = useContext(StoresContext);
     const [page, setPage] = useState(1);
-
-    const splitIntoChunk = (arr, chunk) => {
-        while(arr.length > 0) {
-    
-            let tempArray;
-            tempArray = arr.splice(0, chunk);
-            // console.log(tempArray);
-
-            setStores(oldArray => [...oldArray, tempArray]);
-        }
-
-        setLoaded(true);
-    }
 
     const changePage = (event, value) => {
         setPage(value);
     }
+    
+    return (
+        <>
+            <PaginationStyled
+                count={stores.length}
+                variant="outlined"
+                shape="rounded"
+                onChange={(event, value) => changePage(event, value)}
+            />
 
-    useEffect(() => {
-        fetch('https://run.mocky.io/v3/8c35bbb1-eed6-4eeb-aa83-1132b5830f57')
-        .then((res) => res.json())
-        .then((json) => {
-            splitIntoChunk(json.stores, 10);
-        })
-    }, []);
-
-    if (loaded)
-        return (
-            <>
-                <PaginationStyled
-                    count={stores.length}
-                    variant="outlined"
-                    shape="rounded"
-                    onChange={(event, value) => changePage(event, value)}
-                />
-
-                <BoxStyled sx={{ width: '100%' }}>
-                    <List sx={{padding: 0}}>
-                        {
-                            stores[page-1].map((store, index) => (
-                                <div key={index}>
-                                    <ListItemStyled
-                                        disablePadding
-                                        className={store.revenue < 15000 ? 'negative' : ''}
-                                    >
-                                        <ListItemText
-                                            primary={store.name}
-                                            secondary={`R$ ${store.revenue.toLocaleString('pt-BR')}`}
-                                        />
-                                    </ListItemStyled>
-                                    <Divider sx={{backgroundColor: '#3e3e3e'}}/>
-                                </div>
-                            ) )
-                        }
-                    </List>
-                </BoxStyled>
-            </>
-        );
-    return(
-        <Box
-            sx={{
-                    width: '100%',
-                    maxWidth: 360,
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItens: 'center',
-                    padding: '30px 0'
-                }}
-            >
-            <HourglassBottomTwoToneIcon />
-            <Typography>Carregando...</Typography>
-        </Box>
+            <BoxStyled sx={{ width: '100%' }}>
+                <List sx={{padding: 0}}>
+                    {
+                        stores[page-1].map((store, index) => (
+                            <div key={index}>
+                                <ListItemStyled
+                                    disablePadding
+                                    className={store.revenue < parseFloat(revenue.replace('.', '').replace(',', '.')).toFixed(2) ? 'negative' : ''}
+                                >
+                                    <ListItemText
+                                        primary={store.name}
+                                        secondary={`R$ ${store.revenue.toLocaleString('pt-br')}`}
+                                    />
+                                </ListItemStyled>
+                                <Divider sx={{backgroundColor: '#3e3e3e'}}/>
+                            </div>
+                        ) )
+                    }
+                </List>
+            </BoxStyled>
+        </>
     );
 }
  

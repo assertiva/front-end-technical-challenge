@@ -1,4 +1,5 @@
-import React from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { StoresContext } from "../../providers/stores";
 
 // Components
 import Filter from '../Filter/Filter';
@@ -18,12 +19,27 @@ const containerCSS = {
 }
 
 const Stores = () => {
-    return (
-        <Container maxWidth="xl" fixed sx={containerCSS}>
-            <Filter />
-            <StoreList />
-        </Container>
-    );
+    const { changeList, loaded } = useContext(StoresContext);
+
+    useEffect(() => {
+        fetch('https://run.mocky.io/v3/8c35bbb1-eed6-4eeb-aa83-1132b5830f57')
+        .then((res) => res.json())
+        .then((json) => {
+            changeList(json.stores);
+        })
+    }, []);
+
+    if (loaded)
+        return (
+            <Container maxWidth="xl" fixed sx={containerCSS}>
+                <Filter />
+                <StoreList />
+            </Container>
+        );
+    else
+        return(
+            <div>Carregando</div>
+        );
 }
  
 export default Stores;
