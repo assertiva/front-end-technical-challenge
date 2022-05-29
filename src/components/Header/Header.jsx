@@ -1,4 +1,5 @@
-import React from 'react';
+import { useContext } from 'react';
+import { StoresContext } from "../../providers/stores";
 
 // MUI Components
 import SearchIcon from '@mui/icons-material/Search';
@@ -49,6 +50,12 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 const Header = () => {
+    const { search } = useContext(StoresContext);
+
+    const handleChange = (e) => {
+        search(e.target.value);
+    };
+
     return (
         <AppBar position="fixed">
             <Toolbar>
@@ -65,9 +72,11 @@ const Header = () => {
                   <SearchIconWrapper>
                     <SearchIcon />
                   </SearchIconWrapper>
+
                   <StyledInputBase
                     placeholder="Buscar por loja..."
                     inputProps={{ 'aria-label': 'search' }}
+                    onChange={(e) => handleChange(e)}
                   />
                 </Search>
             </Toolbar>
