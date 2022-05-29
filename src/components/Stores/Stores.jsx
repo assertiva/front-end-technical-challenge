@@ -19,14 +19,10 @@ const containerCSS = {
 }
 
 const Stores = () => {
-    const { changeList, loaded } = useContext(StoresContext);
+    const { fetchStores, loaded } = useContext(StoresContext);
 
     useEffect(() => {
-        fetch('https://run.mocky.io/v3/8c35bbb1-eed6-4eeb-aa83-1132b5830f57')
-        .then((res) => res.json())
-        .then((json) => {
-            changeList(json.stores);
-        })
+        fetchStores();
     }, []);
 
     if (loaded)

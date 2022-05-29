@@ -9,6 +9,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import Divider from '@mui/material/Divider';
 import Pagination from '@mui/material/Pagination';
+import ErrorSharpIcon from '@mui/icons-material/ErrorSharp';
 
 // MUI styles
 const BoxStyled = styled(Box)(({ theme }) => ({
@@ -77,10 +78,23 @@ const ListItemStyled = styled(ListItem)`
             background-color: #ff0000;
         }
     }
+
+    .empty {
+        width: 100%;
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+        padding: 15px;
+        color: #fff;
+
+        span {
+            margin-left: -25px;
+        }
+    }
 `;
 
 const StoreList = () => {
-    const { stores, revenue } = useContext(StoresContext);
+    const { stores, isChuncked, revenue } = useContext(StoresContext);
     const [page, setPage] = useState(1);
 
     const changePage = (event, value) => {
@@ -89,32 +103,67 @@ const StoreList = () => {
     
     return (
         <>
-            <PaginationStyled
-                count={stores.length}
-                variant="outlined"
-                shape="rounded"
-                onChange={(event, value) => changePage(event, value)}
-            />
+            {
+                isChuncked &&
+                <PaginationStyled
+                    count={stores.length}
+                    variant="outlined"
+                    shape="rounded"
+                    onChange={(event, value) => changePage(event, value)}
+                />
+            }
 
             <BoxStyled sx={{ width: '100%' }}>
-                <List sx={{padding: 0}}>
-                    {
-                        stores[page-1].map((store, index) => (
-                            <div key={index}>
-                                <ListItemStyled
-                                    disablePadding
-                                    className={store.revenue < parseFloat(revenue.replace('.', '').replace(',', '.')).toFixed(2) ? 'negative' : ''}
-                                >
-                                    <ListItemText
-                                        primary={store.name}
-                                        secondary={`R$ ${store.revenue.toLocaleString('pt-br')}`}
-                                    />
-                                </ListItemStyled>
-                                <Divider sx={{backgroundColor: '#3e3e3e'}}/>
-                            </div>
-                        ) )
-                    }
-                </List>
+                {
+                    stores.length > 0
+                    ?
+                    <List sx={{padding: 0}}>
+                        {
+                            isChuncked
+                            ?
+                            stores[page-1].map((store, index) => (
+                                <div key={index}>
+                                    <ListItemStyled
+                                        disablePadding
+                                        className={store.revenue < parseFloat(revenue.replace('.', '').replace(',', '.')).toFixed(2) ? 'negative' : ''}
+                                    >
+                                        <ListItemText
+                                            primary={store.name}
+                                            secondary={`R$ ${store.revenue.toLocaleString('pt-br')}`}
+                                        />
+                                    </ListItemStyled>
+                                    <Divider sx={{backgroundColor: '#3e3e3e'}}/>
+                                </div>
+                            ))
+                            :
+                            stores.map((store, index) => (
+                                <div key={index}>
+                                    <ListItemStyled
+                                        disablePadding
+                                        className={store.revenue < parseFloat(revenue.replace('.', '').replace(',', '.')).toFixed(2) ? 'negative' : ''}
+                                    >
+                                        <ListItemText
+                                            primary={store.name}
+                                            secondary={`R$ ${store.revenue.toLocaleString('pt-br')}`}
+                                        />
+                                    </ListItemStyled>
+                                    <Divider sx={{backgroundColor: '#3e3e3e'}}/>
+                                </div>
+                            ))
+                        }
+                    </List>
+                    :
+                    <Box>
+                        <ListItemStyled
+                            disablePadding
+                        >
+                         <div className='empty'>
+                            <ErrorSharpIcon />
+                            <span>Sem resultados encontrados</span>
+                        </div>   
+                        </ListItemStyled>
+                    </Box>
+                }
             </BoxStyled>
         </>
     );
