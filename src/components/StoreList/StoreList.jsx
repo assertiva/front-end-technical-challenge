@@ -94,7 +94,7 @@ const ListItemStyled = styled(ListItem)`
 `;
 
 const StoreList = () => {
-    const { stores, isChuncked, revenue } = useContext(StoresContext);
+    const { stores, isChuncked, revenue, selectStore, hoverStore } = useContext(StoresContext);
     const [page, setPage] = useState(1);
 
     const changePage = (event, value) => {
@@ -126,6 +126,8 @@ const StoreList = () => {
                                     <ListItemStyled
                                         disablePadding
                                         className={store.revenue < parseFloat(revenue.replace('.', '').replace(',', '.')).toFixed(2) ? 'negative' : ''}
+                                        onClick={() => selectStore(store.latitude, store.longitude, store.name)}
+                                        onMouseOver={() => hoverStore(store.name)}
                                     >
                                         <ListItemText
                                             primary={store.name}
@@ -141,6 +143,7 @@ const StoreList = () => {
                                     <ListItemStyled
                                         disablePadding
                                         className={store.revenue < parseFloat(revenue.replace('.', '').replace(',', '.')).toFixed(2) ? 'negative' : ''}
+                                        onClick={() => selectStore(store.latitude, store.longitude, store.name)}
                                     >
                                         <ListItemText
                                             primary={store.name}

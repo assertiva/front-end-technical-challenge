@@ -6,6 +6,7 @@ import Grid from '@mui/material/Grid';
 
 // Components
 import Stores from './components/Stores/Stores';
+import Map from './components/Map/Map';
 import Header from './components/Header/Header';
 
 // MUI Styles and settings
@@ -57,7 +58,7 @@ function App() {
             </Grid>
 
             <Grid item md={8} className='Map-container'>
-              <div>Mapa</div>
+              <Map />
             </Grid>
           </GridStyled>
         </StoresProvider>

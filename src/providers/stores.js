@@ -8,6 +8,8 @@ export function StoresProvider({ children }) {
     const [isChuncked, setIsChuncked] = useState(true);
     const [revenue, setRevenue] = useState('15.000,00');
     const [name, setName] = useState('');
+    const [selected, setSelected] = useState();
+    const [hovered, setHovered] = useState();
     const [loaded, setLoaded] = useState(false);
 
     function splitIntoChunk(arr, chunk) {
@@ -59,6 +61,14 @@ export function StoresProvider({ children }) {
         }
     }
 
+    function selectStore(lat, lng, name) {
+        setSelected(name);
+    }
+
+    function hoverStore(name) {
+        setHovered(name);
+    }
+
     useEffect(() => {
         if (stores.length > 0 && allStores.length > 0) {
             setLoaded(true);
@@ -70,7 +80,7 @@ export function StoresProvider({ children }) {
     }, [stores, allStores]);
 
     return (
-        <StoresContext.Provider value={{ stores, allStores, changeList, revenue, changeRevenue, name, search, isChuncked,fetchStores, loaded }}>
+        <StoresContext.Provider value={{ stores, allStores, changeList, revenue, changeRevenue, name, search, isChuncked, fetchStores, selectStore, selected, hoverStore, hovered, loaded }}>
             {children}
         </StoresContext.Provider>
     );
