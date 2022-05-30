@@ -43,6 +43,20 @@ const GridStyled = styled(Grid)`
     .Map-container {
       padding-top: 88px;
     }
+
+    @media (max-width: 1200px) {
+      .Stores-container {
+        .MuiContainer-root {
+          height: auto;
+          max-width: inherit;
+        }
+      }
+
+      .Map-container {
+        padding: 0 30px 0 45px;
+        min-height: 500px;
+      }
+    }
 `;
 
 function App() {
@@ -53,11 +67,11 @@ function App() {
           <Header />
           
           <GridStyled container spacing={2}>
-            <Grid item md={4} className='Stores-container'>
+            <Grid item lg={4} md={12} sm={12} xs={12} className='Stores-container'>
               <Stores />
             </Grid>
 
-            <Grid item md={8} className='Map-container'>
+            <Grid item lg={8} md={12} sm={12} xs={12} className='Map-container'>
               <Map />
             </Grid>
           </GridStyled>
