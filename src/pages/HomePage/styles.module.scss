@@ -1,0 +1,29 @@
+.container {
+  display: flex;
+  height: 100vh;
+  justify-content: space-evenly;
+  align-items: center;
+
+  .layoutContainer {
+    display: flex;
+
+    .storesContainer {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 46rem;
+      height: 43rem;
+      padding: 2rem;
+    }
+
+    .billingContainer {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      width: 46rem;
+      height: 37.4rem;
+      // border: 1px solid black;
+    }
+  }
+}

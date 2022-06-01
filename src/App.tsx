@@ -1,11 +1,12 @@
-import React from 'react';
+import { Header } from './components/Header';
+import { StoresProvider } from './components/hooks/useStores';
+import { HomePage } from './pages/HomePage';
 
-function App() {
+export function App() {
   return (
-    <div>
-      <h1>Good luck!</h1>
-    </div>
+    <StoresProvider>
+      <Header />
+      <HomePage />
+    </StoresProvider>
   );
 }
-
-export default App;
